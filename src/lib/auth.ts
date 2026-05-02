@@ -11,7 +11,7 @@ export const auth = betterAuth({
       enabled: true,
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      hd: "@sandagakuen.ed.jp",
+      hd: "sandagakuen.ed.jp",
       prompt: "consent",
     },
   },
