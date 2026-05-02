@@ -1,10 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import GoogleFillIcon from "@/components/ui/icons/Google";
 import { authClient } from "@/lib/auth-client";
 
 export default function Home() {
+  const { data: session } = authClient.useSession();
+  const router = useRouter();
+  if (session) router.push("/manager");
   return (
     <main className="h-screen flex flex-col items-center justify-center bg-white w-full">
       <section className="space-y-5 w-full flex flex-col justify-center items-center">
@@ -13,7 +17,10 @@ export default function Home() {
         <div className="space-x-5 flex justify-center w-full max-w-2xl">
           <Button
             onClick={async () => {
-              await authClient.signIn.social({ provider: "google" });
+              await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/manager",
+              });
             }}
           >
             <GoogleFillIcon size={25} />

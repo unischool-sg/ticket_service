@@ -29,7 +29,7 @@ const Button = (props: Props) => {
           `px-5 py-3 border rounded hover:bg-gray-100 cursor-pointer flex flex-row justify-center items-center space-x-3`,
           props.className,
         )}
-        type={"button"}
+        type={props.type || "button"}
       >
         {props.children}
       </button>
