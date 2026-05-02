@@ -1,14 +1,17 @@
+"use client";
+
 import Link, { type LinkProps } from "next/link";
 import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-type Props = ButtonHTMLAttributes<undefined> &
-  Omit<LinkProps<undefined>, "href"> & { href?: string };
+type Props = ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> &
+  Omit<LinkProps<HTMLAnchorElement>, "href"> & { href?: string };
 
 const Button = (props: Props) => {
   if (props.href)
     return (
       <Link
+        {...props}
         className={cn(
           `px-5 py-3 border rounded hover:bg-gray-100 cursor-pointer flex flex-row justify-center items-center space-x-3`,
           props.className,
@@ -21,6 +24,7 @@ const Button = (props: Props) => {
   else
     return (
       <button
+        {...props}
         className={cn(
           `px-5 py-3 border rounded hover:bg-gray-100 cursor-pointer flex flex-row justify-center items-center space-x-3`,
           props.className,

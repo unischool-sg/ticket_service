@@ -1,5 +1,8 @@
+"use client";
+
 import Button from "@/components/ui/button";
 import GoogleFillIcon from "@/components/ui/icons/Google";
+import { authClient } from "@/lib/auth-client";
 
 export default function Home() {
   return (
@@ -8,7 +11,11 @@ export default function Home() {
         <h1 className="text-5xl font-bold">ログイン</h1>
 
         <div className="space-x-5 flex justify-center w-full max-w-2xl">
-          <Button href={`/login`}>
+          <Button
+            onClick={async () => {
+              await authClient.signIn.social({ provider: "google" });
+            }}
+          >
             <GoogleFillIcon size={25} />
             <div className="grow">Googleでログイン</div>
           </Button>
