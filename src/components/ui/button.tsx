@@ -1,11 +1,20 @@
 "use client";
 
 import Link, { type LinkProps } from "next/link";
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> &
-  Omit<LinkProps<HTMLAnchorElement>, "href"> & { href?: string };
+type LinkButtonProps = Omit<LinkProps, "href"> & {
+  href: string;
+  className?: string;
+  children?: ReactNode;
+};
+
+type NativeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  href?: undefined;
+};
+
+type Props = LinkButtonProps | NativeButtonProps;
 
 const Button = (props: Props) => {
   if (props.href)
@@ -24,12 +33,12 @@ const Button = (props: Props) => {
   else
     return (
       <button
-        {...props}
+        {...(props as NativeButtonProps)}
         className={cn(
           `px-5 py-3 border rounded hover:bg-gray-100 cursor-pointer flex flex-row justify-center items-center space-x-3`,
           props.className,
         )}
-        type={props.type || "button"}
+        type={(props as NativeButtonProps).type || "button"}
       >
         {props.children}
       </button>
