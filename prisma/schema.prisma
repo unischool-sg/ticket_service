@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -6,6 +5,13 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+enum TicketStatus {
+  OPEN
+  CALLED
+  MEETING
+  CLOSED
 }
 
 model User {
@@ -67,4 +73,29 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Answer {
+  id       String  @id @default(cuid())
+  ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String?
+
+  rawAnswer Json @default("{}")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ticket {
+  id String @id @default(cuid())
+
+  num Int @default(autoincrement())
+
+  status TicketStatus @default(OPEN)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  closedAt  DateTime?
+
+  answers   Answer[]
 }
