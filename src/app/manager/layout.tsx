@@ -1,10 +1,10 @@
+import type { ReactNode } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import type { JSX } from "react";
 import { auth } from "@/lib/auth";
 
 type LayoutProps = {
-  children: JSX.Element;
+  children: ReactNode;
 };
 
 export default async function ManagerLayout({ children }: LayoutProps) {
