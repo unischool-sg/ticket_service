@@ -1,5 +1,6 @@
-const API_URL = "https://ticket.unischool.jp/api/callback/forms";
-const TOKEN = PropertiesService.getScriptProperties().getProperty("API_KEY");
+const env = PropertiesService.getScriptProperties();
+const API_URL = env.getProperty("API_ENDPOINT");
+const TOKEN = env.getProperty("API_KEY");
 
 
 /**
