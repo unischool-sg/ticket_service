@@ -6,7 +6,7 @@ class APIResponse {
   }
 
   message(message: string, status = 200) {
-    return NextResponse.json({ message }, { status });
+    return NextResponse.json({ success: true, message }, { status });
   }
 
   error(message: string, status = 500) {
