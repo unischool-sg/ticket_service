@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
 
-function jsonResponse<T>(body: T, init?: ResponseInit) {
-  return NextResponse.json(body, init);
-}
-
 class APIResponse {
   success<TData>(data: TData, status = 200) {
     return NextResponse.json({ success: true, data }, { status });

@@ -4,7 +4,7 @@ import { apiResponse } from "@/lib/response";
 
 export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("Authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!authHeader?.startsWith("Bearer ")) {
     return apiResponse.unauthorized();
   }
 
