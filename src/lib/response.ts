@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 class APIResponse {
-  success<TData>(data: TData, status = 200) {
-    return NextResponse.json({ success: true, data }, { status });
+  success<TData>(data: TData, message: string = "", status = 200) {
+    return NextResponse.json({ success: true, message, data }, { status });
   }
 
   message(message: string, status = 200) {
