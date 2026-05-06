@@ -12,9 +12,6 @@ function runOneTimeForAuthentication() {
   FormApp.getActiveForm();
 }
 
-/**
- * @param {Record<string, string>} formData 
- */
 function sendFormDataToAPI(formData) {
   const options = {
     method: "post",
