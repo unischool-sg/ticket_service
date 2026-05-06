@@ -2,23 +2,30 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 
-/**
- * @todo sqliteから適切なものに変更する
- */
+const MAIL_DOMAIN = "sandagakuen.ed.jp";
+
+function requireEnv(name: string) {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`${name} が設定されていません。`);
+  }
+  return value;
+}
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "postgresql"
+    provider: "postgresql",
   }),
 
-  secret: process.env.BETTER_AUTH_SECRET!,
-  baseURL: process.env.BETTER_AUTH_URL!,
+  secret: requireEnv("BETTER_AUTH_SECRET"),
+  baseURL: requireEnv("BETTER_AUTH_URL"),
 
   socialProviders: {
     google: {
       enabled: true,
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      hd: "sandagakuen.ed.jp",
+      clientId: requireEnv("GOOGLE_CLIENT_ID"),
+      clientSecret: requireEnv("GOOGLE_CLIENT_SECRET"),
+      hd: MAIL_DOMAIN,
       prompt: "consent",
     },
   },
@@ -27,6 +34,6 @@ export const auth = betterAuth({
     accountLinking: {
       enabled: true,
       trustedProviders: ["google"],
-    }
-  }
+    },
+  },
 });
