@@ -75,27 +75,15 @@ model Verification {
   @@map("verification")
 }
 
-model Answer {
-  id       String  @id @default(cuid())
-  ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  ticketId String?
-
-  rawAnswer Json @default("{}")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Ticket {
   id String @id @default(cuid())
 
-  num Int @default(autoincrement())
-
+  num    Int          @default(autoincrement())
   status TicketStatus @default(OPEN)
+
+  rawAnswer Json @default("{}")
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   closedAt  DateTime?
-
-  answers   Answer[]
 }
