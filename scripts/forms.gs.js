@@ -1,4 +1,5 @@
 const API_URL = "https://ticket.unischool.jp/api/callback/forms";
+const TOKEN = PropertiesService.getScriptProperties().getProperty("API_KEY");
 
 
 /**
@@ -17,6 +18,9 @@ function sendFormDataToAPI(formData) {
   const options = {
     method: "post",
     contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
     payload: JSON.stringify(formData),
   };
 
