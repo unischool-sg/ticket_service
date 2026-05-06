@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <body>
         {children}
-        <Toaster position="bottom-right"/>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );

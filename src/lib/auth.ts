@@ -7,7 +7,7 @@ import { prisma } from "./prisma";
  */
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "postgresql"
+    provider: "postgresql",
   }),
 
   secret: process.env.BETTER_AUTH_SECRET!,
@@ -27,6 +27,6 @@ export const auth = betterAuth({
     accountLinking: {
       enabled: true,
       trustedProviders: ["google"],
-    }
-  }
+    },
+  },
 });

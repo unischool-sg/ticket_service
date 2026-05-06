@@ -1,7 +1,3 @@
 export default function Manager() {
-    return (
-        <main>
-            
-        </main>
-    )
+  return <main></main>;
 }

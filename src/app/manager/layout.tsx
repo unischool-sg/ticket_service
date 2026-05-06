@@ -1,20 +1,20 @@
-import { type JSX } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import type { JSX } from "react";
 import { auth } from "@/lib/auth";
 
 type LayoutProps = {
-    children: JSX.Element;
-}
+  children: JSX.Element;
+};
 
 export default async function ManagerLayout({ children }: LayoutProps) {
-    const session = await auth.api.getSession({
-      headers: await headers()
-    });
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-    if (!session || session.session) {
-        redirect("/");
-    }
+  if (!session || session.session) {
+    redirect("/");
+  }
 
-    return <>{ children }</>;
+  return <>{children}</>;
 }
