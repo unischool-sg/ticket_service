@@ -3,6 +3,12 @@ import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
 
 export async function POST(req: NextRequest) {
+  const callbackToken = process.env.CALLBACK_TOKEN;
+  if (!callbackToken) {
+    console.error("CALLBACL_TOKEN is not configured");
+    return apiResponse.internalServerError();
+  }
+  
   const authHeader = req.headers.get("Authorization");
   if (!authHeader?.startsWith("Bearer ")) {
     return apiResponse.unauthorized();
