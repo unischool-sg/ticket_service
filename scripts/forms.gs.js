@@ -45,5 +45,5 @@ function extractFormData(e) {
 function onFormSubmit(e) {
   const formData = extractFormData(e);
   sendFormDataToAPI(formData);
-  console.log("Form data sent to API:", formData);
+  console.log("Form data sent to API");
 }
