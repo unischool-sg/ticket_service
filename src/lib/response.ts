@@ -10,7 +10,7 @@ class APIResponse {
   }
 
   error(message: string, status = 500) {
-    return NextResponse.json({ error: message }, { status });
+    return NextResponse.json({ success: false, error: message }, { status });
   }
 
   badRequest(message = "Bad Request") {
