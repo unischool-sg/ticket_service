@@ -5,7 +5,7 @@ import { apiResponse } from "@/lib/response";
 export async function POST(req: NextRequest) {
   const callbackToken = process.env.CALLBACK_TOKEN;
   if (!callbackToken) {
-    console.error("CALLBACL_TOKEN is not configured");
+    console.error("CALLBACK_TOKEN is not configured");
     return apiResponse.internalServerError();
   }
   
@@ -26,9 +26,9 @@ export async function POST(req: NextRequest) {
         rawAnswer: rawData,
       },
     });
-    return apiResponse.success(result);
+    return apiResponse.success(result, "Ticket created successfully");
   } catch (error) {
     console.error("Error creating ticket:", error);
-    return apiResponse.internalServerError();
+    return apiResponse.internalServerError("Failed to create ticket");
   }
 }
