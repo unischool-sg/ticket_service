@@ -32,7 +32,7 @@ function sendFormDataToAPI(formData) {
 function extractFormData(e) {
   const formData = {};
   for (const [key, value] of Object.entries(e.namedValues)) {
-    formData[key] = value.join(", "); // Google FormsのnamedValuesは配列なので、最初の要素を使用
+    formData[key] = value.join(", "); // Google FormsのnamedValuesは配列なので、カンマ区切りで使用
   }
   return formData;
 }
