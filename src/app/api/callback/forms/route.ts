@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   }
 
   const token = authHeader.split(" ")[1];
-  if (token !== process.env.CALLBACK_TOKEN) {
+  if (token !== callbackToken) {
     return apiResponse.unauthorized();
   }
 
