@@ -1,28 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { apiResponse } from "@/lib/response";
 
 export async function POST(req: NextRequest) {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return apiResponse.unauthorized();
     }
 
     const token = authHeader.split(" ")[1];
     if (token !== process.env.CALLBACK_TOKEN) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return apiResponse.unauthorized();
     }
 
     try {
         const rawData = await req.json();
-        await prisma.ticket.create({
+        const result = await prisma.ticket.create({
             data: {
                 rawAnswer: rawData,
             }
         });
+        return apiResponse.success(result);
     } catch (error) {
         console.error("Error creating ticket:", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return apiResponse.internalServerError();
     }
-
-    return NextResponse.json({ message: "Ticket created successfully" });
 }
