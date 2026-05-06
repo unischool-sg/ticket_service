@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     console.error("CALLBACK_TOKEN is not configured");
     return apiResponse.internalServerError();
   }
-  
+
   const authHeader = req.headers.get("Authorization");
   if (!authHeader?.startsWith("Bearer ")) {
     return apiResponse.unauthorized();
