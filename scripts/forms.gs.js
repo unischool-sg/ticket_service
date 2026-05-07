@@ -46,7 +46,7 @@ function extractFormData(e) {
 /**
  * Google Formsの送信イベントに対するトリガー関数です。
  * フォームが送信されると、この関数が呼び出され、フォームのデータがAPIに送信されます。
- * @param {Record<string, string>} e
+ * `@param` {event} e
  */
 function onFormSubmit(e) {
   const formData = extractFormData(e);
