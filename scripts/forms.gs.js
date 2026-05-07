@@ -29,11 +29,18 @@ function sendFormDataToAPI(formData) {
 }
 
 function extractFormData(e) {
-  const formData = {};
-  for (const [key, value] of Object.entries(e.namedValues)) {
-    formData[key] = value.join(", "); // Google FormsのnamedValuesは配列なので、カンマ区切りで使用
-  }
-  return formData;
+  const responses = e.response.getItemResponses();
+
+  const data = {};
+
+  responses.forEach((itemResponse) => {
+    const question = itemResponse.getItem().getTitle();
+    const answer = itemResponse.getResponse();
+
+    data[question] = answer;
+  });
+
+  return data;
 }
 
 /**
