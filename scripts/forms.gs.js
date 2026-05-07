@@ -37,7 +37,13 @@ function extractFormData(e) {
     const question = itemResponse.getItem().getTitle();
     const answer = itemResponse.getResponse();
 
-    data[question] = answer;
+    if (Object.prototype.hasOwnProperty.call(data, question)) {
+      data[question] = Array.isArray(data[question])
+        ? [...data[question], answer]
+        : [data[question], answer];
+    } else {
+      data[question] = answer;
+    }
   });
 
   return data;
