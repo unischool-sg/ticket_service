@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
 
   const authHeader = req.headers.get("Authorization");
   if (!authHeader?.startsWith("Bearer ")) {
+    console.error("Invalid Authorization header, expected Bearer token");
     return apiResponse.unauthorized();
   }
 

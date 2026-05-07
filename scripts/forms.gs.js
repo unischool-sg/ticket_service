@@ -2,7 +2,6 @@ const env = PropertiesService.getScriptProperties();
 const API_URL = env.getProperty("API_ENDPOINT");
 const TOKEN = env.getProperty("API_KEY");
 
-
 /**
  * この関数は、Google Formsのスクリプトエディタで一度だけ実行するための関数です。
  * これにより、Google FormsのAPIへの認証が行われ、フォームのデータをAPIに送信するためのアクセス権が得られます。
@@ -30,17 +29,30 @@ function sendFormDataToAPI(formData) {
 }
 
 function extractFormData(e) {
-  const formData = {};
-  for (const [key, value] of Object.entries(e.namedValues)) {
-    formData[key] = value.join(", "); // Google FormsのnamedValuesは配列なので、カンマ区切りで使用
-  }
-  return formData;
+  const responses = e.response.getItemResponses();
+
+  const data = {};
+
+  responses.forEach((itemResponse) => {
+    const question = itemResponse.getItem().getTitle();
+    const answer = itemResponse.getResponse();
+
+    if (Object.prototype.hasOwnProperty.call(data, question)) {
+      data[question] = Array.isArray(data[question])
+        ? [...data[question], answer]
+        : [data[question], answer];
+    } else {
+      data[question] = answer;
+    }
+  });
+
+  return data;
 }
 
 /**
  * Google Formsの送信イベントに対するトリガー関数です。
  * フォームが送信されると、この関数が呼び出され、フォームのデータがAPIに送信されます。
- * @param {Record<string, string>} e 
+ * `@param` {event} e
  */
 function onFormSubmit(e) {
   const formData = extractFormData(e);
