@@ -1,3 +1,9 @@
+import { CenterCard } from "@/components/layout/Center";
+
 export default function Manager() {
-  return <main></main>;
+  return (
+    <CenterCard>
+      test
+    </CenterCard>
+  );
 }
