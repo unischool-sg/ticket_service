@@ -1,8 +1,9 @@
+import { CenterCard } from "@/components/layout/Center";
 import Button from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-white">
+    <CenterCard>
       <section className="space-y-5">
         <h1 className="text-5xl font-bold">順番待ち管理システム</h1>
 
@@ -12,6 +13,6 @@ export default function Home() {
           <Button href={`/monitor`}>公衆モニター</Button>
         </div>
       </section>
-    </main>
+    </CenterCard>
   );
 }
