@@ -11,9 +11,10 @@ export default async function ManagerLayout({ children }: LayoutProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  console.log(session);
 
   if (!session) {
-    redirect("/");
+    return redirect("/");
   }
 
   return <>{children}</>;

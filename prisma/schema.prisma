@@ -8,10 +8,15 @@ datasource db {
 }
 
 enum TicketStatus {
-  OPEN
-  CALLED
-  MEETING
-  CLOSED
+  OPEN    // チケットがただ作成された状態
+  ENTERED // 入力者が会場に入った状態
+
+  CALLED  // 面談呼び出しされたが、会場にいなかった状態
+  CALLING // 面談に呼び出しされている状態
+
+  MEETING // 実際に面談が行われている状態
+  CLOSED   // チケットが閉じられた状態
+  CANCELED // チケットがキャンセルされた状態
 }
 
 model User {

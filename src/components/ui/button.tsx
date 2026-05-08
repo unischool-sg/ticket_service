@@ -17,14 +17,13 @@ type NativeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 type Props = LinkButtonProps | NativeButtonProps;
 
 const Button = (props: Props) => {
+  const baseStyle = `px-6 py-2.5 font-medium rounded transition-colors flex flex-row justify-center items-center space-x-3 border border-black text-black bg-white hover:bg-black hover:text-white active:bg-gray-800`;
+
   if (props.href)
     return (
       <Link
         {...props}
-        className={cn(
-          `px-5 py-3 border rounded hover:bg-gray-100 cursor-pointer flex flex-row justify-center items-center space-x-3`,
-          props.className,
-        )}
+        className={cn(baseStyle, props.className)}
         href={props.href}
       >
         {props.children}
@@ -34,10 +33,7 @@ const Button = (props: Props) => {
     return (
       <button
         {...(props as NativeButtonProps)}
-        className={cn(
-          `px-5 py-3 border rounded hover:bg-gray-100 cursor-pointer flex flex-row justify-center items-center space-x-3`,
-          props.className,
-        )}
+        className={cn(baseStyle, props.className)}
         type={(props as NativeButtonProps).type || "button"}
       >
         {props.children}

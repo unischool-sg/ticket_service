@@ -37,7 +37,7 @@ function extractFormData(e) {
     const question = itemResponse.getItem().getTitle();
     const answer = itemResponse.getResponse();
 
-    if (Object.prototype.hasOwnProperty.call(data, question)) {
+    if (Object.hasOwn(data, question)) {
       data[question] = Array.isArray(data[question])
         ? [...data[question], answer]
         : [data[question], answer];
@@ -52,7 +52,7 @@ function extractFormData(e) {
 /**
  * Google Formsの送信イベントに対するトリガー関数です。
  * フォームが送信されると、この関数が呼び出され、フォームのデータがAPIに送信されます。
- * `@param` {event} e
+ * @param {event} e - フォーム送信イベントのオブジェクト
  */
 function onFormSubmit(e) {
   const formData = extractFormData(e);
