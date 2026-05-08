@@ -38,6 +38,13 @@ export default async function Tickets({ searchParams }: TicketsProps) {
   const tickets = await prisma.ticket.findMany({
     take: TICKET_COUNT,
     skip: currentPage * TICKET_COUNT,
+    select: {
+      id: true,
+      num: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
     orderBy: {
       createdAt: "desc",
     },
