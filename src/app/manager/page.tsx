@@ -11,7 +11,6 @@ export default function Manager() {
     const toaster = toast.loading("チケット情報を確認中...");
     try {
       const number = e.get("number") as string;
-      console.log(number);
       if (!number) {
         toast.error("チケットIDを入力してください", { id: toaster });
         return;
