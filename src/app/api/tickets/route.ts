@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
 
   const number = searchParams.get("number");
   if (!number) {
-    return apiResponse.badRequest("チケットIDが必要です");
+    return apiResponse.badRequest("チケット番号が必要です");
   }
 
   const ticket = await prisma.ticket.findFirst({
