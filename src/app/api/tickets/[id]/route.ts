@@ -9,7 +9,9 @@ type Context = {
 }
 
 const GET = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_: NextRequest, user: Partial<User>, ctx: Context | undefined) => {
-  if (!user || user.email?.endsWith("@sandagakuen.ed.jp")) return apiResponse.forbidden("アクセスが拒否されました");
+  if (!user?.email?.endsWith("@sandagakuen.ed.jp")) {
+    return apiResponse.forbidden("アクセスが拒否されました");
+  }
   if (!ctx) return apiResponse.internalServerError("チケットIDの取得に失敗しました");
 
   const { id } = await ctx.params;
@@ -24,7 +26,9 @@ const GET = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_:
   return apiResponse.success(ticket);
 }, ctx);
 const PUT = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_: NextRequest, user: Partial<User>, ctx: Context | undefined) => {
-  if (!user || user.email?.endsWith("@sandagakuen.ed.jp")) return apiResponse.forbidden("アクセスが拒否されました");
+  if (!user?.email?.endsWith("@sandagakuen.ed.jp")) {
+    return apiResponse.forbidden("アクセスが拒否されました");
+  }
   if (!ctx) return apiResponse.internalServerError("チケットIDの取得に失敗しました");
 
   const { id } = await ctx.params;
