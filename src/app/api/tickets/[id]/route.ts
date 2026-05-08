@@ -1,14 +1,18 @@
 import { NextRequest } from "next/server";
+import { User } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
+import { withAuth } from "@/lib/middleware";
 
 type Context = {
   params: Promise<{ id: string }>;
 }
 
-export async function GET(req: NextRequest, context: Context) {
-  const { id } = await context.params;
-  
+const GET = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_: NextRequest, user: Partial<User>, ctx: Context | undefined) => {
+  if (!user || user.email?.endsWith("@sandagakuen.ed.jp")) return apiResponse.forbidden("アクセスが拒否されました");
+  if (!ctx) return apiResponse.internalServerError("チケットIDの取得に失敗しました");
+
+  const { id } = await ctx.params;
   const ticket = await prisma.ticket.findUnique({
     where: { id },
   });
@@ -18,10 +22,12 @@ export async function GET(req: NextRequest, context: Context) {
   }
 
   return apiResponse.success(ticket);
-}
+}, ctx);
+const PUT = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_: NextRequest, user: Partial<User>, ctx: Context | undefined) => {
+  if (!user || user.email?.endsWith("@sandagakuen.ed.jp")) return apiResponse.forbidden("アクセスが拒否されました");
+  if (!ctx) return apiResponse.internalServerError("チケットIDの取得に失敗しました");
 
-export async function PUT(req: NextRequest, context: Context) {
-  const { id } = await context.params;
+  const { id } = await ctx.params;
   const { status } = await req.json();
 
   const ticket = await prisma.ticket.findUnique({
@@ -38,4 +44,6 @@ export async function PUT(req: NextRequest, context: Context) {
   });
 
   return apiResponse.success(updatedTicket);
-}
+}, ctx);
+
+export { GET, PUT };
