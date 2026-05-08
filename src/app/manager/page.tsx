@@ -48,7 +48,7 @@ export default function Manager() {
           type="number"
           name="number"
           className="border border-black rounded px-4 py-2.5 w-full focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="発見ナンバーを入力"
+          placeholder="チケットIDを入力"
         />
         <Button className="w-full" type="submit">
           検索
