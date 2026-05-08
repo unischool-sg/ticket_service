@@ -12,7 +12,7 @@ export default function Manager() {
     try {
       const number = e.get("number") as string;
       if (!number) {
-        toast.error("チケットIDを入力してください", { id: toaster });
+        toast.error("チケット番号を入力してください", { id: toaster });
         return;
       }
 
