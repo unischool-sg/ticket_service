@@ -20,16 +20,24 @@ const GET = (req: NextRequest, ctx: Context) =>
           "チケットIDの取得に失敗しました",
         );
 
-      const { id } = await ctx.params;
-      const ticket = await prisma.ticket.findUnique({
-        where: { id },
-      });
+      try {
+        const { id } = await ctx.params;
+        if (!id) return apiResponse.badRequest("チケットIDが必要です");
 
-      if (!ticket) {
-        return apiResponse.notFound("チケットが見つかりません");
+        const ticket = await prisma.ticket.findUnique({
+          where: { id },
+        });
+
+        if (!ticket) {
+          return apiResponse.notFound("チケットが見つかりません");
+        }
+
+        return apiResponse.success(ticket);
+      } catch (e) {
+        console.error(e);
+        return apiResponse.internalServerError("チケットの取得に失敗しました");
       }
-
-      return apiResponse.success(ticket);
+      
     },
     ctx,
   );
@@ -45,23 +53,29 @@ const PUT = (req: NextRequest, ctx: Context) =>
           "チケットIDの取得に失敗しました",
         );
 
-      const { id } = await ctx.params;
-      const { status } = await req.json();
+      try {
+        const [{ id }, { status }] = await Promise.all([ctx.params, req.json()]);
+        if (!id) return apiResponse.badRequest("チケットIDが必要です");
+        if (!status) return apiResponse.badRequest("ステータスが必要です");
 
-      const ticket = await prisma.ticket.findUnique({
-        where: { id },
-      });
+        const ticket = await prisma.ticket.findUnique({
+          where: { id },
+        });
 
-      if (!ticket) {
-        return apiResponse.notFound("チケットが見つかりません");
+        if (!ticket) {
+          return apiResponse.notFound("チケットが見つかりません");
+        }
+
+        const updatedTicket = await prisma.ticket.update({
+          where: { id },
+          data: { status },
+        });
+
+        return apiResponse.success(updatedTicket);
+      } catch (e) {
+        console.error(e);
+        return apiResponse.internalServerError("チケットの更新に失敗しました");
       }
-
-      const updatedTicket = await prisma.ticket.update({
-        where: { id },
-        data: { status },
-      });
-
-      return apiResponse.success(updatedTicket);
     },
     ctx,
   );
