@@ -14,12 +14,11 @@ const withAuth = async <Context extends Record<string, unknown>>(
   handler: Handler<Context>,
   ctx?: Context,
 ) => {
-  const session = await auth.api.getSession({ headers: req.headers });
-  if (!session) {
-    return apiResponse.unauthorized("認証が必要です");
-  }
-
   try {
+    const session = await auth.api.getSession({ headers: req.headers });
+    if (!session) {
+      return apiResponse.unauthorized("認証が必要です");
+    }
     return await handler(req, session.user as User, ctx);
   } catch (e) {
     console.error("Error in withAuth handler:", e);
