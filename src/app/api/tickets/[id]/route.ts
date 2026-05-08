@@ -7,35 +7,42 @@ type Context = {
 }
 
 export async function GET(req: NextRequest, context: Context) {
-  const { id } = await context.params;
-  
-  const ticket = await prisma.ticket.findUnique({
-    where: { id },
-  });
+  try {
+    const { id } = await context.params;
+    const ticket = await prisma.ticket.findUnique({
+      where: { id },
+    });
 
-  if (!ticket) {
-    return apiResponse.notFound("チケットが見つかりません");
+    if (!ticket) {
+      return apiResponse.notFound("チケットが見つかりません");
+    }
+
+    return apiResponse.success(ticket);
+  } catch (e) {
+    console.error("Error in GET /api/tickets/[id]:", e);
+    return apiResponse.internalServerError("サーバーエラーが発生しました");
   }
 
-  return apiResponse.success(ticket);
 }
 
 export async function PUT(req: NextRequest, context: Context) {
-  const { id } = await context.params;
-  const { status } = await req.json();
+  try {
+    const [{ id }, { status }] = await Promise.all([context.params, req.json()]);
+    const ticket = await prisma.ticket.findUnique({
+      where: { id },
+    });
+    if (!ticket) {
+      return apiResponse.notFound("チケットが見つかりません");
+    }
 
-  const ticket = await prisma.ticket.findUnique({
-    where: { id },
-  });
-
-  if (!ticket) {
-    return apiResponse.notFound("チケットが見つかりません");
+    const updatedTicket = await prisma.ticket.update({
+      where: { id },
+      data: { status },
+    });
+    
+    return apiResponse.success(updatedTicket);
+  } catch (e) {
+    console.error("Error in PUT /api/tickets/[id]:", e);
+    return apiResponse.internalServerError("サーバーエラーが発生しました");
   }
-
-  const updatedTicket = await prisma.ticket.update({
-    where: { id },
-    data: { status },
-  });
-
-  return apiResponse.success(updatedTicket);
 }
