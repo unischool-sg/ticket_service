@@ -94,7 +94,7 @@ export default async function TicketDetailPage({
           </div>
         </section>
 
-        <TicketStatusChangeForm ticketId={id} />
+        <TicketStatusChangeForm ticketId={id} currentStatus={ticket.status} />
 
         <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-lg border border-black bg-white">
