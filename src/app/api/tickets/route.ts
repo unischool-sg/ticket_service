@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
+import type { User } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
 import { withAuth } from "@/lib/middleware";
-import { User } from "better-auth";
 
 const GET = (req: NextRequest) => withAuth(req, async (req: NextRequest, _user: User) => {
   const { searchParams } = new URL(req.url);
