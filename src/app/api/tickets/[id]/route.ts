@@ -37,7 +37,6 @@ const GET = (req: NextRequest, ctx: Context) =>
         console.error(e);
         return apiResponse.internalServerError("チケットの取得に失敗しました");
       }
-      
     },
     ctx,
   );
@@ -54,7 +53,10 @@ const PUT = (req: NextRequest, ctx: Context) =>
         );
 
       try {
-        const [{ id }, { status }] = await Promise.all([ctx.params, req.json()]);
+        const [{ id }, { status }] = await Promise.all([
+          ctx.params,
+          req.json(),
+        ]);
         if (!id) return apiResponse.badRequest("チケットIDが必要です");
         if (!status) return apiResponse.badRequest("ステータスが必要です");
 
