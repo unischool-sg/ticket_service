@@ -1,48 +1,53 @@
 import { NextRequest } from "next/server";
+import { User } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
+import { withAuth } from "@/lib/middleware";
 
 type Context = {
   params: Promise<{ id: string }>;
 }
 
-export async function GET(req: NextRequest, context: Context) {
-  try {
-    const { id } = await context.params;
-    const ticket = await prisma.ticket.findUnique({
-      where: { id },
-    });
+const GET = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_: NextRequest, user: Partial<User>, ctx: Context | undefined) => {
+  if (!user?.email?.endsWith("@sandagakuen.ed.jp")) {
+    return apiResponse.forbidden("アクセスが拒否されました");
+  }
+  if (!ctx) return apiResponse.internalServerError("チケットIDの取得に失敗しました");
 
-    if (!ticket) {
-      return apiResponse.notFound("チケットが見つかりません");
-    }
+  const { id } = await ctx.params;
+  const ticket = await prisma.ticket.findUnique({
+    where: { id },
+  });
 
-    return apiResponse.success(ticket);
-  } catch (e) {
-    console.error("Error in GET /api/tickets/[id]:", e);
-    return apiResponse.internalServerError("サーバーエラーが発生しました");
+  if (!ticket) {
+    return apiResponse.notFound("チケットが見つかりません");
   }
 
-}
-
-export async function PUT(req: NextRequest, context: Context) {
-  try {
-    const [{ id }, { status }] = await Promise.all([context.params, req.json()]);
-    const ticket = await prisma.ticket.findUnique({
-      where: { id },
-    });
-    if (!ticket) {
-      return apiResponse.notFound("チケットが見つかりません");
-    }
-
-    const updatedTicket = await prisma.ticket.update({
-      where: { id },
-      data: { status },
-    });
-    
-    return apiResponse.success(updatedTicket);
-  } catch (e) {
-    console.error("Error in PUT /api/tickets/[id]:", e);
-    return apiResponse.internalServerError("サーバーエラーが発生しました");
+  return apiResponse.success(ticket);
+}, ctx);
+const PUT = (req: NextRequest, ctx: Context) => withAuth<Context>(req, async (_: NextRequest, user: Partial<User>, ctx: Context | undefined) => {
+  if (!user?.email?.endsWith("@sandagakuen.ed.jp")) {
+    return apiResponse.forbidden("アクセスが拒否されました");
   }
-}
+  if (!ctx) return apiResponse.internalServerError("チケットIDの取得に失敗しました");
+
+  const { id } = await ctx.params;
+  const { status } = await req.json();
+
+  const ticket = await prisma.ticket.findUnique({
+    where: { id },
+  });
+
+  if (!ticket) {
+    return apiResponse.notFound("チケットが見つかりません");
+  }
+
+  const updatedTicket = await prisma.ticket.update({
+    where: { id },
+    data: { status },
+  });
+
+  return apiResponse.success(updatedTicket);
+}, ctx);
+
+export { GET, PUT };
