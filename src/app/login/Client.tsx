@@ -1,9 +1,10 @@
 "use client";
-
 import { CenterCard } from "@/components/layout/Center";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 import Button from "@/components/ui/button";
 import GoogleFillIcon from "@/components/ui/icons/Google";
-import { authClient } from "@/lib/auth-client";
+
 
 export default function LoginClient() {
   return (
@@ -23,6 +24,7 @@ export default function LoginClient() {
               });
             } catch (error) {
               console.error("Googleログインの開始に失敗しました", error);
+              toast.error("Googleログインに失敗しました");
             }
           }}
           className="w-full gap-2"
