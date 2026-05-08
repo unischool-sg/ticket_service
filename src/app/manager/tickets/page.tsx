@@ -46,30 +46,30 @@ export default async function Tickets({ searchParams }: TicketsProps) {
   const hasNextPage = currentPage + 1 < totalPages;
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white px-4 py-8 text-black sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-lg border border-black bg-white p-6 sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-2">
-              <p className="text-sm font-medium tracking-wide text-slate-500">Manager Console</p>
+              <p className="text-sm font-medium tracking-wide text-gray-600">Manager Console</p>
               <div className="space-y-1.5">
                 <h1 className="text-3xl font-semibold tracking-tight">チケット一覧</h1>
-                <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
+                <p className="max-w-2xl text-sm leading-6 text-gray-700 sm:text-base">
                   受付されたチケットを新しい順に確認できます。状態と更新日時が一目で分かるため、次に対応すべきチケットを素早く判断できます。
                 </p>
               </div>
             </div>
 
             <div className="flex flex-col gap-3 sm:items-end">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                <span className="block text-xs uppercase tracking-[0.18em] text-slate-400">
+              <div className="rounded border border-black bg-white px-4 py-3 text-sm text-black">
+                <span className="block text-xs uppercase tracking-[0.18em] text-gray-600">
                   Total Tickets
                 </span>
-                <span className="mt-1 block text-2xl font-semibold text-slate-900">{totalCount}</span>
+                <span className="mt-1 block text-2xl font-semibold text-black">{totalCount}</span>
               </div>
               <Link
                 href="/manager"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100"
+                className="inline-flex items-center justify-center rounded border border-black bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-gray-100"
               >
                 チケット番号で検索
               </Link>
@@ -77,18 +77,18 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="flex flex-col gap-3 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <section className="overflow-hidden rounded-lg border border-black bg-white">
+          <div className="flex flex-col gap-3 border-b border-black px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">一覧表示</h2>
-              <p className="text-sm text-slate-500">
+              <h2 className="text-lg font-semibold text-black">一覧表示</h2>
+              <p className="text-sm text-gray-600">
                 {totalCount === 0
                   ? "現在表示できるチケットはありません。"
                   : `${showingFrom}〜${showingTo}件目を表示しています`}
               </p>
             </div>
             {totalCount > 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-gray-600">
                 {currentPage + 1} / {totalPages} ページ
               </p>
             ) : null}
@@ -97,14 +97,14 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           {tickets.length === 0 ? (
             <div className="px-6 py-16 text-center sm:px-8">
               <div className="mx-auto max-w-md space-y-3">
-                <h3 className="text-xl font-semibold text-slate-900">チケットがまだありません</h3>
-                <p className="text-sm leading-6 text-slate-500 sm:text-base">
+                <h3 className="text-xl font-semibold text-black">チケットがまだありません</h3>
+                <p className="text-sm leading-6 text-gray-600 sm:text-base">
                   チケットが作成されるとここに一覧表示されます。特定の番号を確認したい場合は、検索画面から直接照会してください。
                 </p>
                 <div className="pt-2">
                   <Link
                     href="/manager"
-                    className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+                    className="inline-flex items-center justify-center rounded border border-black bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-900"
                   >
                     検索画面へ戻る
                   </Link>
@@ -112,7 +112,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
               </div>
             </div>
           ) : (
-            <div className="divide-y divide-slate-200">
+            <div className="divide-y divide-black">
               {tickets.map((ticket) => {
                 const status = statusMap[ticket.status as TicketStatus];
 
@@ -120,12 +120,12 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                   <Link
                     key={ticket.id}
                     href={`/manager/tickets/${ticket.id}`}
-                    className="group block px-6 py-5 transition hover:bg-slate-50 focus:bg-slate-50 focus:outline-none sm:px-8"
+                    className="group block px-6 py-5 transition hover:bg-gray-50 focus:bg-gray-50 focus:outline-none sm:px-8"
                   >
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                       <div className="space-y-3">
                         <div className="flex flex-wrap items-center gap-3">
-                          <span className="inline-flex min-w-20 items-center justify-center rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+                          <span className="inline-flex min-w-20 items-center justify-center rounded-full bg-black px-3 py-1 text-sm font-semibold text-white">
                             #{ticket.num}
                           </span>
                           <span
@@ -135,23 +135,23 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                           </span>
                         </div>
 
-                        <div className="grid gap-2 text-sm text-slate-600 sm:grid-cols-2 sm:gap-x-8">
+                        <div className="grid gap-2 text-sm text-gray-700 sm:grid-cols-2 sm:gap-x-8">
                           <p>
-                            <span className="mr-2 text-slate-400">作成日時</span>
-                            <span className="font-medium text-slate-700">{formatDate(ticket.createdAt)}</span>
+                            <span className="mr-2 text-gray-600">作成日時</span>
+                            <span className="font-medium text-black">{formatDate(ticket.createdAt)}</span>
                           </p>
                           <p>
-                            <span className="mr-2 text-slate-400">更新日時</span>
-                            <span className="font-medium text-slate-700">{formatDate(ticket.updatedAt)}</span>
+                            <span className="mr-2 text-gray-600">更新日時</span>
+                            <span className="font-medium text-black">{formatDate(ticket.updatedAt)}</span>
                           </p>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between gap-4 md:min-w-36 md:justify-end">
-                        <span className="text-sm text-slate-500 transition group-hover:text-slate-700">
+                        <span className="text-sm text-gray-600 transition group-hover:text-black">
                           詳細を見る
                         </span>
-                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition group-hover:border-slate-300 group-hover:text-slate-700">
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black text-black transition group-hover:text-gray-700">
                           →
                         </span>
                       </div>
@@ -163,20 +163,20 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           )}
 
           {totalCount > 0 ? (
-            <div className="flex flex-col gap-3 border-t border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-              <p className="text-sm text-slate-500">
+            <div className="flex flex-col gap-3 border-t border-black px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+              <p className="text-sm text-gray-600">
                 1ページあたり {TICKET_COUNT} 件まで表示しています。
               </p>
               <div className="flex items-center gap-3">
                 {hasPreviousPage ? (
                   <Link
                     href={buildPageHref(currentPage - 1)}
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100"
+                    className="inline-flex items-center justify-center rounded border border-black bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-gray-100"
                   >
                     前のページ
                   </Link>
                 ) : (
-                  <span className="inline-flex cursor-not-allowed items-center justify-center rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-400">
+                  <span className="inline-flex cursor-not-allowed items-center justify-center rounded border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400">
                     前のページ
                   </span>
                 )}
@@ -184,12 +184,12 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                 {hasNextPage ? (
                   <Link
                     href={buildPageHref(currentPage + 1)}
-                    className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+                    className="inline-flex items-center justify-center rounded border border-black bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-900"
                   >
                     次のページ
                   </Link>
                 ) : (
-                  <span className="inline-flex cursor-not-allowed items-center justify-center rounded-xl bg-slate-200 px-4 py-2 text-sm font-medium text-slate-500">
+                  <span className="inline-flex cursor-not-allowed items-center justify-center rounded border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-500">
                     次のページ
                   </span>
                 )}

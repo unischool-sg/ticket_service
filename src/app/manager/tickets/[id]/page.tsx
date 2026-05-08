@@ -1,6 +1,7 @@
 import { statusMap } from "@/constants/status";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { TicketStatusChangeForm } from "@/components/forms/ticket";
 import Link from "next/link";
 
 
@@ -54,21 +55,21 @@ export default async function TicketDetailPage({ params }: TicketDetailPageProps
   const answerEntries = getAnswerEntries(ticket.rawAnswer);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white px-4 py-8 text-black sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-lg border border-black bg-white p-6 sm:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-3">
               <Link
                 href="/manager/tickets"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-700"
+                className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-black"
               >
                 ← 一覧へ戻る
               </Link>
               <div className="space-y-2">
-                <p className="text-sm font-medium tracking-wide text-slate-500">Ticket Detail</p>
+                <p className="text-sm font-medium tracking-wide text-gray-600">Ticket Detail</p>
                 <h1 className="text-3xl font-semibold tracking-tight">チケット #{ticket.num}</h1>
-                <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
+                <p className="max-w-2xl text-sm leading-6 text-gray-700 sm:text-base">
                   チケットの現在状態と登録内容を確認できます。現場で必要な情報を迷わず確認できるよう、表示を整理しています。
                 </p>
               </div>
@@ -80,32 +81,34 @@ export default async function TicketDetailPage({ params }: TicketDetailPageProps
               >
                 {status.label}
               </span>
-              <span className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+              <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-sm font-semibold text-white">
                 #{ticket.num}
               </span>
             </div>
           </div>
         </section>
 
+        <TicketStatusChangeForm ticketId={id} />
+
         <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div className="border-b border-slate-200 px-6 py-5 sm:px-8">
-              <h2 className="text-lg font-semibold text-slate-900">回答内容</h2>
-              <p className="mt-1 text-sm text-slate-500">フォームから登録された内容を確認できます。</p>
+          <div className="rounded-lg border border-black bg-white">
+            <div className="border-b border-black px-6 py-5 sm:px-8">
+              <h2 className="text-lg font-semibold text-black">回答内容</h2>
+              <p className="mt-1 text-sm text-gray-600">フォームから登録された内容を確認できます。</p>
             </div>
 
             {answerEntries.length === 0 ? (
               <div className="px-6 py-12 sm:px-8">
-                <p className="text-sm leading-6 text-slate-500">
+                <p className="text-sm leading-6 text-gray-600">
                   このチケットには表示できる回答データがまだありません。
                 </p>
               </div>
             ) : (
-              <dl className="divide-y divide-slate-200">
+              <dl className="divide-y divide-black">
                 {answerEntries.map(([key, value]) => (
                   <div key={key} className="grid gap-2 px-6 py-5 sm:px-8 md:grid-cols-[200px_1fr] md:gap-6">
-                    <dt className="text-sm font-medium text-slate-500">{key}</dt>
-                    <dd className="whitespace-pre-wrap break-words text-sm leading-6 text-slate-900">{value}</dd>
+                    <dt className="text-sm font-medium text-gray-600">{key}</dt>
+                    <dd className="whitespace-pre-wrap break-words text-sm leading-6 text-black">{value}</dd>
                   </div>
                 ))}
               </dl>
@@ -113,47 +116,47 @@ export default async function TicketDetailPage({ params }: TicketDetailPageProps
           </div>
 
           <div className="space-y-6">
-            <section className="rounded-3xl border border-slate-200 bg-white shadow-sm">
-              <div className="border-b border-slate-200 px-6 py-5">
-                <h2 className="text-lg font-semibold text-slate-900">基本情報</h2>
+            <section className="rounded-lg border border-black bg-white">
+              <div className="border-b border-black px-6 py-5">
+                <h2 className="text-lg font-semibold text-black">基本情報</h2>
               </div>
-              <dl className="grid gap-4 px-6 py-5 text-sm text-slate-600">
+              <dl className="grid gap-4 px-6 py-5 text-sm text-gray-700">
                 <div className="space-y-1">
-                  <dt className="text-slate-400">チケットID</dt>
-                  <dd className="break-all font-medium text-slate-800">{ticket.id}</dd>
+                  <dt className="text-gray-600">チケットID</dt>
+                  <dd className="break-all font-medium text-black">{ticket.id}</dd>
                 </div>
                 <div className="space-y-1">
-                  <dt className="text-slate-400">作成日時</dt>
-                  <dd className="font-medium text-slate-800">{formatDate(ticket.createdAt)}</dd>
+                  <dt className="text-gray-600">作成日時</dt>
+                  <dd className="font-medium text-black">{formatDate(ticket.createdAt)}</dd>
                 </div>
                 <div className="space-y-1">
-                  <dt className="text-slate-400">更新日時</dt>
-                  <dd className="font-medium text-slate-800">{formatDate(ticket.updatedAt)}</dd>
+                  <dt className="text-gray-600">更新日時</dt>
+                  <dd className="font-medium text-black">{formatDate(ticket.updatedAt)}</dd>
                 </div>
                 <div className="space-y-1">
-                  <dt className="text-slate-400">クローズ日時</dt>
-                  <dd className="font-medium text-slate-800">
+                  <dt className="text-gray-600">クローズ日時</dt>
+                  <dd className="font-medium text-black">
                     {ticket.closedAt ? formatDate(ticket.closedAt) : "未完了"}
                   </dd>
                 </div>
               </dl>
             </section>
 
-            <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-slate-900">次の操作</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
+            <section className="rounded-lg border border-black bg-white p-6">
+              <h2 className="text-lg font-semibold text-black">次の操作</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-600">
                 一覧へ戻って別のチケットを確認するか、検索画面から番号指定で直接移動できます。
               </p>
               <div className="mt-4 flex flex-col gap-3">
                 <Link
                   href="/manager/tickets"
-                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+                  className="inline-flex items-center justify-center rounded border border-black bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-900"
                 >
                   チケット一覧へ戻る
                 </Link>
                 <Link
                   href="/manager"
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100"
+                  className="inline-flex items-center justify-center rounded border border-black bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-gray-100"
                 >
                   番号で検索する
                 </Link>
