@@ -12,7 +12,7 @@ export default async function ManagerLayout({ children }: LayoutProps) {
     headers: await headers(),
   });
   console.log(session);
-  
+
   if (!session) {
     return redirect("/");
   }

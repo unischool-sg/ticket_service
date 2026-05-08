@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { TicketStatus } from "@/generated/prisma/enums";
 import { statusMap } from "@/constants/status";
+import type { TicketStatus } from "@/generated/prisma/enums";
+import { prisma } from "@/lib/prisma";
 
 type TicketsProps = {
   searchParams: Promise<{ page?: string }>;
@@ -26,11 +26,14 @@ function buildPageHref(page: number) {
 export default async function Tickets({ searchParams }: TicketsProps) {
   const { page } = await searchParams;
   const requestedPage = Number.parseInt(page ?? "0", 10);
-  const normalizedPage = Number.isNaN(requestedPage) || requestedPage < 0 ? 0 : requestedPage;
+  const normalizedPage =
+    Number.isNaN(requestedPage) || requestedPage < 0 ? 0 : requestedPage;
 
   const totalCount = await prisma.ticket.count();
-  const totalPages = totalCount === 0 ? 0 : Math.ceil(totalCount / TICKET_COUNT);
-  const currentPage = totalPages === 0 ? 0 : Math.min(normalizedPage, totalPages - 1);
+  const totalPages =
+    totalCount === 0 ? 0 : Math.ceil(totalCount / TICKET_COUNT);
+  const currentPage =
+    totalPages === 0 ? 0 : Math.min(normalizedPage, totalPages - 1);
 
   const tickets = await prisma.ticket.findMany({
     take: TICKET_COUNT,
@@ -51,9 +54,13 @@ export default async function Tickets({ searchParams }: TicketsProps) {
         <section className="rounded-lg border border-black bg-white p-6 sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-2">
-              <p className="text-sm font-medium tracking-wide text-gray-600">Manager Console</p>
+              <p className="text-sm font-medium tracking-wide text-gray-600">
+                Manager Console
+              </p>
               <div className="space-y-1.5">
-                <h1 className="text-3xl font-semibold tracking-tight">チケット一覧</h1>
+                <h1 className="text-3xl font-semibold tracking-tight">
+                  チケット一覧
+                </h1>
                 <p className="max-w-2xl text-sm leading-6 text-gray-700 sm:text-base">
                   受付されたチケットを新しい順に確認できます。状態と更新日時が一目で分かるため、次に対応すべきチケットを素早く判断できます。
                 </p>
@@ -65,7 +72,9 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                 <span className="block text-xs uppercase tracking-[0.18em] text-gray-600">
                   Total Tickets
                 </span>
-                <span className="mt-1 block text-2xl font-semibold text-black">{totalCount}</span>
+                <span className="mt-1 block text-2xl font-semibold text-black">
+                  {totalCount}
+                </span>
               </div>
               <Link
                 href="/manager"
@@ -97,7 +106,9 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           {tickets.length === 0 ? (
             <div className="px-6 py-16 text-center sm:px-8">
               <div className="mx-auto max-w-md space-y-3">
-                <h3 className="text-xl font-semibold text-black">チケットがまだありません</h3>
+                <h3 className="text-xl font-semibold text-black">
+                  チケットがまだありません
+                </h3>
                 <p className="text-sm leading-6 text-gray-600 sm:text-base">
                   チケットが作成されるとここに一覧表示されます。特定の番号を確認したい場合は、検索画面から直接照会してください。
                 </p>
@@ -138,11 +149,15 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                         <div className="grid gap-2 text-sm text-gray-700 sm:grid-cols-2 sm:gap-x-8">
                           <p>
                             <span className="mr-2 text-gray-600">作成日時</span>
-                            <span className="font-medium text-black">{formatDate(ticket.createdAt)}</span>
+                            <span className="font-medium text-black">
+                              {formatDate(ticket.createdAt)}
+                            </span>
                           </p>
                           <p>
                             <span className="mr-2 text-gray-600">更新日時</span>
-                            <span className="font-medium text-black">{formatDate(ticket.updatedAt)}</span>
+                            <span className="font-medium text-black">
+                              {formatDate(ticket.updatedAt)}
+                            </span>
                           </p>
                         </div>
                       </div>

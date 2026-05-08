@@ -1,6 +1,6 @@
-import { TicketStatus } from "@/generated/prisma/enums";
+import type { TicketStatus } from "@/generated/prisma/enums";
 
-const statusMap: Record<TicketStatus, { label: string, className: string }> = {
+const statusMap: Record<TicketStatus, { label: string; className: string }> = {
   OPEN: {
     label: "受付中",
     className: "border-slate-200 bg-slate-100 text-slate-700",
@@ -11,7 +11,7 @@ const statusMap: Record<TicketStatus, { label: string, className: string }> = {
   },
   CALLING: {
     label: "呼び出し中",
-    className: "border-amber-200 bg-amber-50 text-amber-700"
+    className: "border-amber-200 bg-amber-50 text-amber-700",
   },
   CALLED: {
     label: "呼び出し済み（いなかった状態）",

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
 
@@ -11,10 +11,10 @@ export async function GET(req: NextRequest) {
   }
 
   const ticket = await prisma.ticket.findFirst({
-    where: { num: parseInt(number) }
+    where: { num: parseInt(number) },
   });
   console.log(ticket);
-  
+
   if (!ticket) {
     return apiResponse.notFound("チケットが見つかりません");
   }

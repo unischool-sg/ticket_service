@@ -18,7 +18,7 @@ type Props = LinkButtonProps | NativeButtonProps;
 
 const Button = (props: Props) => {
   const baseStyle = `px-6 py-2.5 font-medium rounded transition-colors flex flex-row justify-center items-center space-x-3 border border-black text-black bg-white hover:bg-black hover:text-white active:bg-gray-800`;
-  
+
   if (props.href)
     return (
       <Link
