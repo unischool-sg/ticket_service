@@ -1,10 +1,9 @@
 "use client";
-import { CenterCard } from "@/components/layout/Center";
-import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { CenterCard } from "@/components/layout/Center";
 import Button from "@/components/ui/button";
 import GoogleFillIcon from "@/components/ui/icons/Google";
-
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginClient() {
   return (
