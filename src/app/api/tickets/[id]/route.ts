@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import type { TicketStatus, User } from "@/generated/prisma/client";
-import type { TicketCreateInput } from "@/generated/prisma/models";
+import type { TicketUpdateInput } from "@/generated/prisma/models";
 import { withAuth } from "@/lib/middleware";
 import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
@@ -68,7 +68,7 @@ const PUT = (req: NextRequest, ctx: Context) =>
           return apiResponse.notFound("チケットが見つかりません");
         }
 
-        const payload: Partial<TicketCreateInput> = { status };
+        const payload: TicketUpdateInput = { status };
         if (status === "CLOSED") {
           payload.closedAt = new Date();
         }
