@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
-import type { User } from "@/generated/prisma/client";
+import type { TicketStatus, User } from "@/generated/prisma/client";
+import type { TicketCreateInput } from "@/generated/prisma/models";
 import { withAuth } from "@/lib/middleware";
 import { prisma } from "@/lib/prisma";
 import { apiResponse } from "@/lib/response";
@@ -40,6 +41,7 @@ const GET = (req: NextRequest, ctx: Context) =>
     },
     ctx,
   );
+
 const PUT = (req: NextRequest, ctx: Context) =>
   withAuth<Context>(
     req,
@@ -53,10 +55,8 @@ const PUT = (req: NextRequest, ctx: Context) =>
         );
 
       try {
-        const [{ id }, { status }] = await Promise.all([
-          ctx.params,
-          req.json(),
-        ]);
+        const [{ id }, { status }]: [{ id: string }, { status: TicketStatus }] =
+          await Promise.all([ctx.params, req.json()]);
         if (!id) return apiResponse.badRequest("チケットIDが必要です");
         if (!status) return apiResponse.badRequest("ステータスが必要です");
 
@@ -68,9 +68,14 @@ const PUT = (req: NextRequest, ctx: Context) =>
           return apiResponse.notFound("チケットが見つかりません");
         }
 
+        const payload: Partial<TicketCreateInput> = { status };
+        if (status === "CLOSED") {
+          payload.closedAt = new Date();
+        }
+
         const updatedTicket = await prisma.ticket.update({
           where: { id },
-          data: { status },
+          data: payload,
         });
 
         return apiResponse.success(updatedTicket);
