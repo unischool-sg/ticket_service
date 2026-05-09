@@ -18,6 +18,8 @@ export default function Monitor() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchTickets = async (): Promise<TicketsResult> => {
       const response = await fetch("/api/tickets/monitor");
       const data = await response.json();
@@ -34,25 +36,28 @@ export default function Monitor() {
         setOpenTickets(result.open);
         setMeetingTickets(result.meeting);
         setSkippedTickets(result.skipped);
+        setIsLoading(false);
       } catch (e) {
         console.error(e);
         toast.error("ポーリング中にエラーが発生しました", {
           description: (e as Error).message,
         });
-      } finally {
-        setIsLoading(false);
       }
-        
 
     };
 
-    void updateTickets();
-    const interval = setInterval(() => {
-      void updateTickets();
-    }, POLLING_TIME);
+    const poll = async () => {
+      if (cancelled) return;
+      await updateTickets();
+      if (cancelled) return;
+      setTimeout(() => {
+        void poll();
+      }, POLLING_TIME);
+    };
 
+    void poll();
     return () => {
-      clearInterval(interval);
+      cancelled = true;
     };
   }, []);
 
