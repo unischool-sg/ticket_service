@@ -34,13 +34,15 @@ export default function Monitor() {
         setOpenTickets(result.open);
         setMeetingTickets(result.meeting);
         setSkippedTickets(result.skipped);
-        setIsLoading(false);
       } catch (e) {
         console.error(e);
         toast.error("ポーリング中にエラーが発生しました", {
           description: (e as Error).message,
         });
+      } finally {
+        setIsLoading(false);
       }
+        
 
     };
 
