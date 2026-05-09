@@ -57,6 +57,7 @@ const PUT = (req: NextRequest, ctx: Context) =>
       try {
         const [{ id }, { status }]: [{ id: string }, { status: TicketStatus }] =
           await Promise.all([ctx.params, req.json()]);
+
         if (!id) return apiResponse.badRequest("チケットIDが必要です");
         if (!status) return apiResponse.badRequest("ステータスが必要です");
 
