@@ -142,7 +142,7 @@ export default function Monitor() {
                   <p className="text-sm text-gray-500">待機中の方はいません</p>
                 ) : (
                   <ul className="space-y-2">
-                    {openTickets.map((ticket, index) => (
+                    {openTickets.slice(0, 5).map((ticket, index) => (
                       <li
                         key={ticket.id}
                         className="flex items-center justify-between rounded border border-black px-3 py-2"
