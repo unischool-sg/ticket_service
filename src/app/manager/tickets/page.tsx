@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SectionCard } from "@/components/ui/SectionCard";
 import { statusMap } from "@/constants/status";
 import type { TicketStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
@@ -58,7 +59,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
   return (
     <main className="min-h-screen bg-white px-4 py-8 text-black sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <section className="rounded-lg border border-black bg-white p-6 sm:p-8">
+        <SectionCard className="p-6 sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-2">
               <p className="text-sm font-medium tracking-wide text-gray-600">
@@ -91,25 +92,23 @@ export default async function Tickets({ searchParams }: TicketsProps) {
               </Link>
             </div>
           </div>
-        </section>
+        </SectionCard>
 
-        <section className="overflow-hidden rounded-lg border border-black bg-white">
-          <div className="flex flex-col gap-3 border-b border-black px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <div>
-              <h2 className="text-lg font-semibold text-black">一覧表示</h2>
-              <p className="text-sm text-gray-600">
-                {totalCount === 0
-                  ? "現在表示できるチケットはありません。"
-                  : `${showingFrom}〜${showingTo}件目を表示しています`}
-              </p>
-            </div>
-            {totalCount > 0 ? (
+        <SectionCard
+          title="一覧表示"
+          description={
+            totalCount === 0
+              ? "現在表示できるチケットはありません。"
+              : `${showingFrom}〜${showingTo}件目を表示しています`
+          }
+          action={
+            totalCount > 0 ? (
               <p className="text-sm text-gray-600">
                 {currentPage + 1} / {totalPages} ページ
               </p>
-            ) : null}
-          </div>
-
+            ) : null
+          }
+        >
           {tickets.length === 0 ? (
             <div className="px-6 py-16 text-center sm:px-8">
               <div className="mx-auto max-w-md space-y-3">
@@ -218,7 +217,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
               </div>
             </div>
           ) : null}
-        </section>
+        </SectionCard>
       </div>
     </main>
   );

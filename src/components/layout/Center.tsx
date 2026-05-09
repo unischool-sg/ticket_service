@@ -1,12 +1,17 @@
 import type { ReactNode } from "react";
+import { PageShell } from "./PageShell";
 
 type CenterCardProps = {
   children: ReactNode;
 };
+
 export function CenterCard({ children }: CenterCardProps) {
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-white">
+    <PageShell
+      centered
+      contentClassName="flex flex-col items-center justify-center"
+    >
       {children}
-    </main>
+    </PageShell>
   );
 }
