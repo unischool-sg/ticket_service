@@ -125,29 +125,6 @@ export default function Monitor() {
         <section className="grid min-h-0 grid-cols-1 gap-3 sm:gap-4">
           <SectionCard
             className="flex min-h-0 flex-col"
-            title="スキップした方"
-            description="呼び出し時に不在だった方"
-            bodyClassName="mt-3 min-h-0 flex-1 overflow-auto px-3 pb-3 sm:px-4 sm:pb-4"
-          >
-            {skippedTickets.length === 0 ? (
-              <p className="text-sm text-gray-500">現在はいません</p>
-            ) : (
-              <ul className="space-y-2">
-                {skippedTickets.map((ticket) => (
-                  <li
-                    key={ticket.id}
-                    className="flex items-center justify-between rounded border border-gray-300 px-3 py-2"
-                  >
-                    <span className="text-sm text-gray-700">番号</span>
-                    <span className="text-lg font-semibold">{ticket.num}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </SectionCard>
-
-          <SectionCard
-            className="flex min-h-0 flex-col"
             title="次に呼ばれる方（最大5件）"
             description="先頭の方を次に呼び出します"
             bodyClassName="mt-3 min-h-0 flex-1 overflow-auto px-3 pb-3 sm:px-4 sm:pb-4"
@@ -165,6 +142,29 @@ export default function Monitor() {
                       {index + 1}番目
                     </span>
                     <span className="text-xl font-bold">{ticket.num}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </SectionCard>
+          
+          <SectionCard
+            className="flex min-h-0 flex-col"
+            title="スキップした方"
+            description="呼び出し時に不在だった方"
+            bodyClassName="mt-3 min-h-0 flex-1 overflow-auto px-3 pb-3 sm:px-4 sm:pb-4"
+          >
+            {skippedTickets.length === 0 ? (
+              <p className="text-sm text-gray-500">現在はいません</p>
+            ) : (
+              <ul className="space-y-2">
+                {skippedTickets.map((ticket) => (
+                  <li
+                    key={ticket.id}
+                    className="flex items-center justify-between rounded border border-gray-300 px-3 py-2"
+                  >
+                    <span className="text-sm text-gray-700">番号</span>
+                    <span className="text-lg font-semibold">{ticket.num}</span>
                   </li>
                 ))}
               </ul>
