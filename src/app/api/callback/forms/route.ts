@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
     const result = await prisma.ticket.create({
       data: {
         rawAnswer: rawData,
+        idx: rawData["あなたの担当のA～Fを選択してください。\n（※広報入力）"]
       },
     });
     return apiResponse.success(result, "Ticket created successfully");
