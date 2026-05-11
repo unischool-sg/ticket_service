@@ -85,6 +85,7 @@ model Ticket {
 
   num    Int          @default(autoincrement())
   status TicketStatus @default(OPEN)
+  idx    Int          @default(0)
 
   rawAnswer Json @default("{}")
 
