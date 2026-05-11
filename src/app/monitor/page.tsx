@@ -147,7 +147,7 @@ export default function Monitor() {
               </ul>
             )}
           </SectionCard>
-          
+
           <SectionCard
             className="flex min-h-0 flex-col"
             title="スキップした方"
