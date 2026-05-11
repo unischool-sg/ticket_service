@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TicketStatusChangeForm } from "@/components/forms/ticket";
+import { SectionCard } from "@/components/ui/SectionCard";
 import { statusMap } from "@/constants/status";
 import { prisma } from "@/lib/prisma";
 
@@ -59,7 +60,7 @@ export default async function TicketDetailPage({
   return (
     <main className="min-h-screen bg-white px-4 py-8 text-black sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <section className="rounded-lg border border-black bg-white p-6 sm:p-8">
+        <SectionCard className="p-6 sm:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-3">
               <Link
@@ -92,19 +93,15 @@ export default async function TicketDetailPage({
               </span>
             </div>
           </div>
-        </section>
+        </SectionCard>
 
         <TicketStatusChangeForm ticketId={id} currentStatus={ticket.status} />
 
         <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-lg border border-black bg-white">
-            <div className="border-b border-black px-6 py-5 sm:px-8">
-              <h2 className="text-lg font-semibold text-black">回答内容</h2>
-              <p className="mt-1 text-sm text-gray-600">
-                フォームから登録された内容を確認できます。
-              </p>
-            </div>
-
+          <SectionCard
+            title="回答内容"
+            description="フォームから登録された内容を確認できます。"
+          >
             {answerEntries.length === 0 ? (
               <div className="px-6 py-12 sm:px-8">
                 <p className="text-sm leading-6 text-gray-600">
@@ -126,13 +123,10 @@ export default async function TicketDetailPage({
                 ))}
               </dl>
             )}
-          </div>
+          </SectionCard>
 
           <div className="space-y-6">
-            <section className="rounded-lg border border-black bg-white">
-              <div className="border-b border-black px-6 py-5">
-                <h2 className="text-lg font-semibold text-black">基本情報</h2>
-              </div>
+            <SectionCard title="基本情報">
               <dl className="grid gap-4 px-6 py-5 text-sm text-gray-700">
                 <div className="space-y-1">
                   <dt className="text-gray-600">チケットID</dt>
@@ -159,28 +153,29 @@ export default async function TicketDetailPage({
                   </dd>
                 </div>
               </dl>
-            </section>
+            </SectionCard>
 
-            <section className="rounded-lg border border-black bg-white p-6">
-              <h2 className="text-lg font-semibold text-black">次の操作</h2>
-              <p className="mt-2 text-sm leading-6 text-gray-600">
-                一覧へ戻って別のチケットを確認するか、検索画面から番号指定で直接移動できます。
-              </p>
-              <div className="mt-4 flex flex-col gap-3">
-                <Link
-                  href="/manager/tickets"
-                  className="inline-flex items-center justify-center rounded border border-black bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-900"
-                >
-                  チケット一覧へ戻る
-                </Link>
-                <Link
-                  href="/manager"
-                  className="inline-flex items-center justify-center rounded border border-black bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-gray-100"
-                >
-                  番号で検索する
-                </Link>
+            <SectionCard title="次の操作">
+              <div className="px-6 py-5">
+                <p className="text-sm leading-6 text-gray-600">
+                  一覧へ戻って別のチケットを確認するか、検索画面から番号指定で直接移動できます。
+                </p>
+                <div className="mt-4 flex flex-col gap-3">
+                  <Link
+                    href="/manager/tickets"
+                    className="inline-flex items-center justify-center rounded border border-black bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-900"
+                  >
+                    チケット一覧へ戻る
+                  </Link>
+                  <Link
+                    href="/manager"
+                    className="inline-flex items-center justify-center rounded border border-black bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-gray-100"
+                  >
+                    番号で検索する
+                  </Link>
+                </div>
               </div>
-            </section>
+            </SectionCard>
           </div>
         </section>
       </div>
