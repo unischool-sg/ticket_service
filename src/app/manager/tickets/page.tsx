@@ -43,6 +43,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
       id: true,
       num: true,
       status: true,
+      idx: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -143,7 +144,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                       <div className="space-y-3">
                         <div className="flex flex-wrap items-center gap-3">
                           <span className="inline-flex min-w-20 items-center justify-center rounded-full bg-black px-3 py-1 text-sm font-semibold text-white">
-                            #{ticket.num}
+                            #{ticket.num} - {ticket.idx}
                           </span>
                           <span
                             className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${status.className}`}
