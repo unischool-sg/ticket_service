@@ -36,17 +36,10 @@ export default async function Tickets({ searchParams }: TicketsProps) {
 
   const where: any = {};
   if (onlyToday) {
-    const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
-    const now = new Date();
-    const nowJst = new Date(now.getTime() + JST_OFFSET_MS);
-    const start = new Date(
-      Date.UTC(
-        nowJst.getUTCFullYear(),
-        nowJst.getUTCMonth(),
-        nowJst.getUTCDate(),
-      ) - JST_OFFSET_MS,
-    );
-    const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 1);
     where.createdAt = { gte: start, lt: end };
   }
 
@@ -124,13 +117,11 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           action={
             (totalCount > 0 || onlyToday) ? (
               <div className="flex items-center gap-4">
-                
+                {totalCount > 0 && (
                   <p className="text-sm text-gray-600">
-                    {totalCount > 0 ? (
-                      <>{currentPage + 1} / {totalPages} ページ</>
-                    ) : ("ページがありません")}
+                    {currentPage + 1} / {totalPages} ページ
                   </p>
-                
+                )}
 
                 <Link
                   href={buildPageHref(0, !onlyToday)}
