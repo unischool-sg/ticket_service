@@ -56,7 +56,6 @@ export default async function Tickets({ searchParams }: TicketsProps) {
       id: true,
       num: true,
       status: true,
-      idx: true,
       createdAt: true,
       updatedAt: true,
     },
