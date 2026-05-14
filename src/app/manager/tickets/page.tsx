@@ -116,11 +116,14 @@ export default async function Tickets({ searchParams }: TicketsProps) {
               : `${showingFrom}〜${showingTo}件目を表示しています`
           }
           action={
-            totalCount > 0 ? (
+            (totalCount > 0 || onlyToday) ? (
               <div className="flex items-center gap-4">
-                <p className="text-sm text-gray-600">
-                  {currentPage + 1} / {totalPages} ページ
-                </p>
+                {totalCount > 0 && (
+                  <p className="text-sm text-gray-600">
+                    {currentPage + 1} / {totalPages} ページ
+                  </p>
+                )}
+
                 <Link
                   href={buildPageHref(0, !onlyToday)}
                   className="inline-flex items-center justify-center rounded border border-black bg-white px-3 py-1 text-sm font-medium text-black transition hover:bg-gray-100"
