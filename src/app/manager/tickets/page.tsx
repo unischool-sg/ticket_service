@@ -5,7 +5,7 @@ import type { TicketStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
 type TicketsProps = {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; today?: string }>;
 };
 
 const TICKET_COUNT = 10;
@@ -20,30 +20,42 @@ function formatDate(date: Date) {
   }).format(date);
 }
 
-function buildPageHref(page: number) {
-  return page === 0 ? "/manager/tickets" : `/manager/tickets?page=${page}`;
+function buildPageHref(page: number, onlyToday?: boolean) {
+  const params = new URLSearchParams();
+  if (page > 0) params.set("page", String(page));
+  if (onlyToday) params.set("today", "1");
+  return params.toString() ? `/manager/tickets?${params.toString()}` : "/manager/tickets";
 }
 
 export default async function Tickets({ searchParams }: TicketsProps) {
-  const { page } = await searchParams;
+  const { page, today } = await searchParams;
   const requestedPage = Number.parseInt(page ?? "0", 10);
+  const onlyToday = today === "1" || today === "true";
   const normalizedPage =
     Number.isNaN(requestedPage) || requestedPage < 0 ? 0 : requestedPage;
 
-  const totalCount = await prisma.ticket.count();
-  const totalPages =
-    totalCount === 0 ? 0 : Math.ceil(totalCount / TICKET_COUNT);
+  const where: any = {};
+  if (onlyToday) {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 1);
+    where.createdAt = { gte: start, lt: end };
+  }
+
+  const totalCount = await prisma.ticket.count({ where });
+  const totalPages = totalCount === 0 ? 0 : Math.ceil(totalCount / TICKET_COUNT);
   const currentPage =
     totalPages === 0 ? 0 : Math.min(normalizedPage, totalPages - 1);
 
   const tickets = await prisma.ticket.findMany({
+    where,
     take: TICKET_COUNT,
     skip: currentPage * TICKET_COUNT,
     select: {
       id: true,
       num: true,
       status: true,
-      idx: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -99,14 +111,27 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           title="一覧表示"
           description={
             totalCount === 0
-              ? "現在表示できるチケットはありません。"
+              ? onlyToday
+                ? "本日作成されたチケットはありません"
+                : "現在表示されるチケットはありません"
               : `${showingFrom}〜${showingTo}件目を表示しています`
           }
           action={
-            totalCount > 0 ? (
-              <p className="text-sm text-gray-600">
-                {currentPage + 1} / {totalPages} ページ
-              </p>
+            (totalCount > 0 || onlyToday) ? (
+              <div className="flex items-center gap-4">
+                {totalCount > 0 && (
+                  <p className="text-sm text-gray-600">
+                    {currentPage + 1} / {totalPages} ページ
+                  </p>
+                )}
+
+                <Link
+                  href={buildPageHref(0, !onlyToday)}
+                  className="inline-flex items-center justify-center rounded border border-black bg-white px-3 py-1 text-sm font-medium text-black transition hover:bg-gray-100"
+                >
+                  {onlyToday ? "今日のみを解除" : "今日のみを表示"}
+                </Link>
+              </div>
             ) : null
           }
         >
@@ -144,7 +169,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
                       <div className="space-y-3">
                         <div className="flex flex-wrap items-center gap-3">
                           <span className="inline-flex min-w-20 items-center justify-center rounded-full bg-black px-3 py-1 text-sm font-semibold text-white">
-                            #{ticket.num} - {ticket.idx}
+                            #{ticket.num}
                           </span>
                           <span
                             className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${status.className}`}
@@ -192,7 +217,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
               <div className="flex items-center gap-3">
                 {hasPreviousPage ? (
                   <Link
-                    href={buildPageHref(currentPage - 1)}
+                    href={buildPageHref(currentPage - 1, onlyToday)}
                     className="inline-flex items-center justify-center rounded border border-black bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-gray-100"
                   >
                     前のページ
@@ -205,7 +230,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
 
                 {hasNextPage ? (
                   <Link
-                    href={buildPageHref(currentPage + 1)}
+                    href={buildPageHref(currentPage + 1, onlyToday)}
                     className="inline-flex items-center justify-center rounded border border-black bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-900"
                   >
                     次のページ
