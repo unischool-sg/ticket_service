@@ -28,6 +28,8 @@ function formatValue(value: unknown): string {
   if (typeof value === "string") return value;
   if (typeof value === "number" || typeof value === "boolean")
     return String(value);
+
+  if (typeof value === "object") return (value as Array<any>).join(", ");
   return JSON.stringify(value, null, 2);
 }
 
@@ -116,7 +118,7 @@ export default async function TicketDetailPage({
                     className="grid gap-2 px-6 py-5 sm:px-8 md:grid-cols-[200px_1fr] md:gap-6"
                   >
                     <dt className="text-sm font-medium text-gray-600">{key}</dt>
-                    <dd className="whitespace-pre-wrap break-words text-sm leading-6 text-black">
+                    <dd className="whitespace-pre-wrap break-words text-sm leading-6 text-black font-bold">
                       {value}
                     </dd>
                   </div>
