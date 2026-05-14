@@ -29,7 +29,8 @@ function formatValue(value: unknown): string {
   if (typeof value === "number" || typeof value === "boolean")
     return String(value);
 
-  if (typeof value === "object") return (value as Array<any>).join(", ");
+  if (Array.isArray(value)) return value.join(", ");
+  if (typeof value === "object") return JSON.stringify(value, null, 2);
   return JSON.stringify(value, null, 2);
 }
 
