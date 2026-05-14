@@ -111,7 +111,9 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           title="一覧表示"
           description={
             totalCount === 0
-              ? "現在表示できるチケットはありません。"
+              ? onlyToday
+                ? "本日作成されたチケットはありません"
+                : "現在表示されるチケットはありません"
               : `${showingFrom}〜${showingTo}件目を表示しています`
           }
           action={
