@@ -24,10 +24,8 @@ export async function POST(req: NextRequest) {
     const rawData = await req.json();
     const result = await prisma.ticket.create({
       data: {
+        num: rawData["会場を選択してください（※広報入力）"] + rawData["受付番号をえらんで選んでください（※広報入力）"],
         rawAnswer: rawData,
-        idx:
-          rawData["受付番号をえらんで選んでください\n（※広報入力）"] ??
-          "unknown",
       },
     });
     return apiResponse.success(result, "Ticket created successfully");
