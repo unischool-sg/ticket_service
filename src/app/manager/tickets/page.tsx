@@ -24,7 +24,9 @@ function buildPageHref(page: number, onlyToday?: boolean) {
   const params = new URLSearchParams();
   if (page > 0) params.set("page", String(page));
   if (onlyToday) params.set("today", "1");
-  return params.toString() ? `/manager/tickets?${params.toString()}` : "/manager/tickets";
+  return params.toString()
+    ? `/manager/tickets?${params.toString()}`
+    : "/manager/tickets";
 }
 
 export default async function Tickets({ searchParams }: TicketsProps) {
@@ -44,7 +46,8 @@ export default async function Tickets({ searchParams }: TicketsProps) {
   }
 
   const totalCount = await prisma.ticket.count({ where });
-  const totalPages = totalCount === 0 ? 0 : Math.ceil(totalCount / TICKET_COUNT);
+  const totalPages =
+    totalCount === 0 ? 0 : Math.ceil(totalCount / TICKET_COUNT);
   const currentPage =
     totalPages === 0 ? 0 : Math.min(normalizedPage, totalPages - 1);
 
@@ -117,7 +120,7 @@ export default async function Tickets({ searchParams }: TicketsProps) {
               : `${showingFrom}〜${showingTo}件目を表示しています`
           }
           action={
-            (totalCount > 0 || onlyToday) ? (
+            totalCount > 0 || onlyToday ? (
               <div className="flex items-center gap-4">
                 {totalCount > 0 && (
                   <p className="text-sm text-gray-600">

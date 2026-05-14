@@ -14,7 +14,7 @@ const GET = (req: NextRequest) =>
     }
     try {
       const ticket = await prisma.ticket.findFirst({
-        where: { num: parseInt(number) },
+        where: { num: number },
       });
       console.log(ticket);
 
