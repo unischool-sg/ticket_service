@@ -124,11 +124,13 @@ export default async function Tickets({ searchParams }: TicketsProps) {
           action={
             (totalCount > 0 || onlyToday) ? (
               <div className="flex items-center gap-4">
-                {totalCount > 0 && (
+                
                   <p className="text-sm text-gray-600">
-                    {currentPage + 1} / {totalPages} ページ
+                    {totalCount > 0 ? (
+                      <>{currentPage + 1} / {totalPages} ページ</>
+                    ) : ("ページがありません")}
                   </p>
-                )}
+                
 
                 <Link
                   href={buildPageHref(0, !onlyToday)}
