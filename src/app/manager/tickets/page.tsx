@@ -36,10 +36,17 @@ export default async function Tickets({ searchParams }: TicketsProps) {
 
   const where: any = {};
   if (onlyToday) {
-    const start = new Date();
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(start);
-    end.setDate(start.getDate() + 1);
+    const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+    const now = new Date();
+    const nowJst = new Date(now.getTime() + JST_OFFSET_MS);
+    const start = new Date(
+      Date.UTC(
+        nowJst.getUTCFullYear(),
+        nowJst.getUTCMonth(),
+        nowJst.getUTCDate(),
+      ) - JST_OFFSET_MS,
+    );
+    const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
     where.createdAt = { gte: start, lt: end };
   }
 
