@@ -85,7 +85,7 @@ export default function Monitor() {
       <div className="grid flex-1 grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
         <SectionCard
           className="flex min-h-0 flex-col"
-          title="今呼び出している方"
+          title="今、相談中の方"
           bodyClassName="flex min-h-0 flex-1 flex-col gap-3 p-3 sm:p-5"
         >
           {isLoading ? (
@@ -97,7 +97,7 @@ export default function Monitor() {
           ) : meetingTickets.length === 0 ? (
             <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 px-4 text-center">
               <p className="text-sm text-gray-600 sm:text-base">
-                現在呼び出し中の方はいません
+                現在相談中の方はいません
               </p>
             </div>
           ) : (
@@ -108,7 +108,7 @@ export default function Monitor() {
                   className="flex flex-col justify-between rounded-lg border border-black bg-black p-4 text-white sm:p-5"
                 >
                   <p className="text-xs text-gray-200 sm:text-sm">
-                    呼び出し中 {index + 1}
+                    相談中 {index + 1}
                   </p>
                   <p className="mt-3 text-4xl font-bold leading-none sm:text-6xl">
                     {ticket.num}
